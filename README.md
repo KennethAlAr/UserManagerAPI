@@ -28,5 +28,5 @@ http://localhost:3000
 
 ## Documentación del reto
 
-- [Día 1 - Diseño inicial](docs/dia-01-diseno-inicial-usermanager.md)
-- [Día 2 - Preparación del proyecto](docs/dia-02-preparacion-proyecto.md)
+- [Día 1 - Diseño inicial](/UserManagerAPI/docs/dia-01-diseno-inicial-usermanager.md)
+- [Día 2 - Preparación del proyecto](/UserManagerAPI/docs/dia-02-preparacion-proyecto.md)
