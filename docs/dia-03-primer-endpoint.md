@@ -3,6 +3,7 @@
 ## Qué he hecho
 
 - He creado el endpoint `GET /api/health`.
+- He creado el endpoint `GET /api/ping`.
 - He devuelto una respuesta JSON.
 - He usado el status code `200`.
 - He probado la ruta desde navegador.
@@ -22,7 +23,9 @@ GET /api/health
 {
   "status": "ok",
   "message": "UserManager API funcionando",
-  "timestamp": "..."
+  "timestamp": "2026-06-10T12:07:03.643Z",
+  "version": "1.0.0",
+  "environment": "development"
 }
 ```
 ---
@@ -55,6 +58,15 @@ El endpoint `/api/health` sirve para comprobar que la API está funcionando corr
 ## Pruebas realizadas
 | Petición | Código esperado | Resultado obtenido |
 | :--- | :--- | :--- |
-| `GET /` | `200` | `200` |
-| `GET /api/health` | `200` | `200` |
-| `GET /api/ping` | `200` | `200` |
+| `GET /` | `200` | Mensaje del servidor con el nombre, la versión, el estado y el autor |
+| `GET /api/health` | `200` | Mensaje del servidor con el estado, el timestamp de la consulta, la versión y el entorno de desarrollo |
+| `GET /api/ping` | `200` | Mensaje rápido de respuesta |
+
+### Prueba con POSTMAN - GET http://localhost:3000/
+![Prueba GET http://localhost:3000/](./GET_root.png)
+
+### Prueba con POSTMAN - GET http://localhost:3000/api/health
+![Prueba GET http://localhost:3000/api/health](./GET_api-health.png)
+
+### Prueba con POSTMAN - GET http://localhost:3000/api/ping
+![Prueba GET http://localhost:3000/api/ping](./GET_api-ping.png)
