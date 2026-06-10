@@ -27,6 +27,42 @@ http://localhost:3000
 ```
 ## Endpoints disponibles
 
+### Root
+
+```http
+GET /
+```
+
+Respuesta esperada:
+
+```json
+{
+  "name": "UserManager API",
+  "version": "1.0.0",
+  "status": "running",
+  "author": "Kenneth Alonso Arce"
+}
+```
+### Info
+
+```http
+GET /api/info
+```
+
+Respuesta esperada:
+
+```json
+{
+  "project": "UserManager API",
+  "description": "API REST para gestionar usuarios",
+  "day": 2,
+  "technologies": [
+    "Node.js",
+    "Express",
+    "TypeScript"
+  ]
+}
+```
 ### Health
 
 ```http
@@ -42,6 +78,19 @@ Respuesta esperada:
   "timestamp": "2026-01-01T10:00:00.000Z"
 }
 ```
+### Ping
+
+```http
+GET /api/ping
+```
+
+Respuesta esperada:
+
+```json
+{
+  "message": "pong"
+}
+```
 
 ## Endpoints simulados de usuarios
 
@@ -51,6 +100,9 @@ GET /api/users/:id
 POST /api/users
 PATCH /api/users/:id
 DELETE /api/users/:id
+GET /api/users/me
+PATCH /api/users/:id/status
+PATCH /api/users/:id/role
 ```
 
 Estos endpoints todavía no trabajan con datos reales. De momento sirven para
