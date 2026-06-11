@@ -60,6 +60,15 @@ app.get("/api/users/me", (req,res) => {
   });
 });
 
+app.get("/api/users/search", (req,res) => {
+  const query = req.query;
+
+  res.status(200).json({
+    message: "Búsqueda de usuarios",
+    filters: query
+  });
+});
+
 // Endpoint para ver un usuario por ID
 app.get("/api/users/:id", (req,res) => {
   const { id } = req.params;
@@ -117,6 +126,66 @@ app.patch("/api/users/:id/role", (req,res) => {
     message: "Rol de usuario recibido para actualizar",
     id: id,
     role: role
+  });
+});
+
+app.post("/api/debug/body", (req,res) => {
+  res.status(200).json({
+    message: "Body recibido correctamente",
+    body: req.body
+  });
+});
+
+app.get("/api/debug/params/:id", (req,res) => {
+  res.status(200).json({
+    message: "Params recibidos correctamente",
+    params: req.params
+  });
+});
+
+app.get("/api/debug/query", (req,res) => {
+  res.status(200).json({
+    message: "Query params recibidos correctamente",
+    query: req.query
+  });
+});
+
+app.get("/api/debug/headers", (req,res) => {
+  res.status(200).json({
+    message: "Headers recibidos correctamente",
+    headers: req.headers
+  });
+});
+
+app.patch("/api/debug/users/:id", (req,res) => {
+  const { id } = req.params;
+  const { notify } = req.query;
+  const authorization = req.headers.authorization;
+  const changes = req.body;
+
+  res.status(200).json({
+    message: "Datos combinados recibidos",
+    id,
+    notify,
+    authorization,
+    changes
+  });
+});
+
+app.patch("/api/users/me/password", (req,res) => {
+  const { currentPassword } = req.body;
+  const { newPassword } = req.body;
+
+  res.status(200).json({
+    message: "Solicitud de cambio de contraseña recibida",
+  });
+});
+
+app.get("/api/debug/client", (req,res) => {
+  const client = req.headers["x-client-name"];
+
+  res.status(200).json({
+    client: client
   });
 });
 
