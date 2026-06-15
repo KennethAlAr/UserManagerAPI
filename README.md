@@ -92,10 +92,23 @@ Respuesta esperada:
 }
 ```
 
+### Users
+```http
+GET /api/users
+```
+
+Respuesta esperada:
+```json
+{
+  "message": "Listado de usuarios",
+  "total": 3,
+  "data": []
+}
+```
+
 ## Endpoints simulados de usuarios
 
 ```http
-GET /api/users
 GET /api/users/:id
 POST /api/users
 PATCH /api/users/:id
@@ -130,3 +143,4 @@ Más adelante estas rutas podrán eliminarse, ya que no forman parte de la API f
 - [Día 4 - Métodos HTTP](docs/dia-04-metodos-http.md)
 - [Día 5 - JSON, body, params y headers](docs/dia-05-json-body-params-headers.md)
 - [Día 6 - Cliente HTTP y depuración](docs/dia-06-cliente-http-depuracion.md)
+- [Día 7 - Listado de usuarios en memoria](docs/dia-07-listado-usuarios.md)
