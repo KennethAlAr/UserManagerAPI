@@ -135,12 +135,45 @@ app.get("/api/users/search", (req,res) => {
   });
 });
 
+app.get("/api/users/active", (req,res) => {
+  const activeUsers = users.filter((user) => user.isActive);
+
+  if (activeUsers.length === 0) {
+    return res.status(404).json({
+      error: "No hay usuarios activos"
+    })
+  }
+
+  res.status(200).json({
+    message: "Lista de usuarios activos",
+    data: activeUsers
+  })
+})
+
 // Endpoint para ver un usuario por ID
 app.get("/api/users/:id", (req,res) => {
-  const { id } = req.params;
+  const idParam = req.params.id;
+  const id = Number(idParam);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({
+      error: "El ID debe ser un número",
+      received: idParam
+    });
+  }
+
+  const user = users.find((user) => user.id === id);
+
+  if (!user) {
+    return res.status(404).json({
+      error: "Usuario no encontrado",
+      id
+    });
+  }
+
   res.status(200).json({
-    message: "Detalle de usuario",
-    id: id
+    message: "ID recibido correctamente",
+    data: user
   });
 });
 
