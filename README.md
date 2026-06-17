@@ -198,10 +198,62 @@ Posibles errores:
 }
 ```
 
-## Endpoints simulados de usuarios
+## Endpoint para crear usuario
 
 ```http
 POST /api/users
+```
+
+Body:
+
+```json
+{
+  "name": "María López",
+  "email": "maria@email.com",
+  "password": "123456"
+}
+```
+
+Respuesta correcta:
+
+```json
+{
+    "message": "Usuario creado correctamente",
+    "data": {
+        "id": 6,
+        "name": "María López",
+        "email": "maria@email.com",
+        "role": "USER",
+        "isActive": true,
+        "createdAt": "2026-06-17T10:56:36.738Z",
+        "updatedAt": "2026-06-17T10:56:36.738Z"
+    }
+}
+```
+
+Posibles errores:
+
+```json
+{
+  "error": "name, email y password son obligatorios"
+}
+```
+
+```json
+{
+  "error": "La contraseña debe tener al menos 6 caracteres"
+}
+```
+
+```json
+{
+  "error": "El email ya está registrado"
+}
+```
+
+## Endpoints simulados de usuarios
+
+```http
 PATCH /api/users/:id
 DELETE /api/users/:id
 GET /api/users/me
@@ -236,3 +288,4 @@ Más adelante estas rutas podrán eliminarse, ya que no forman parte de la API f
 - [Día 6 - Cliente HTTP y depuración](docs/dia-06-cliente-http-depuracion.md)
 - [Día 7 - Listado de usuarios en memoria](docs/dia-07-listado-usuarios.md)
 - [Día 8 - Consultar usuario por ID](docs/dia-08-consultar-usuario-id.md)
+- [Día 9 - Crear usuarios en memoria](docs/dia-09-crear-usuarios.md)
