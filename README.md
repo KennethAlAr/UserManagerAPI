@@ -200,9 +200,7 @@ Posibles errores:
 
 ## Endpoint para crear usuario
 
-```http
-POST /api/users
-```
+### POST /api/users
 
 Body:
 
@@ -448,10 +446,54 @@ Posibles errores:
 }
 ```
 
+## Eliminar o desactivar usuario
+
+### DELETE /api/users/:id
+
+
+En este proyecto, esta ruta no borra físicamente el usuario. Realiza un borrado
+lógico marcando:
+
+```text
+isActive = false
+```
+
+Respuesta correcta:
+
+```json
+{
+  "message": "Usuario desactivado correctamente",
+  "data": {
+    "id": 1,
+    "name": "Ana García",
+    "email": "ana@email.com",
+    "role": "USER",
+    "isActive": false,
+    "createdAt": "2026-06-19T15:36:03.396Z",
+    "updatedAt": "2026-06-19T15:36:12.985Z"
+  }
+}
+```
+
+Posibles errores:
+
+```json
+{
+  "error": "El ID debe ser un número",
+  "received": "abc"
+}
+```
+
+```json
+{
+  "error": "Usuario no encontrado",
+  "id": 999
+}
+```
+
 ## Endpoints simulados de usuarios
 
 ```http
-DELETE /api/users/:id
 GET /api/users/me
 ```
 
@@ -484,3 +526,4 @@ Más adelante estas rutas podrán eliminarse, ya que no forman parte de la API f
 - [Día 8 - Consultar usuario por ID](docs/dia-08-consultar-usuario-id.md)
 - [Día 9 - Crear usuarios en memoria](docs/dia-09-crear-usuarios.md)
 - [Día 10 - Actualizar usuarios en memoria](docs/dia-10-actualizar-usuarios.md)
+- [Día 11 - Eliminar o desactivar usuarios en memoria](docs/dia-11-eliminar-desactivar-usuarios.md)

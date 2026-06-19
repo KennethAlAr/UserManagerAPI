@@ -64,6 +64,7 @@ const users: User[] = [
 
 app.use(express.json());
 
+// Endpoint raíz para ver información de la aplicación ----------------------------------------------------------------
 app.get("/", (req, res) => {
   res.json({
     name: "UserManager API",
@@ -73,7 +74,7 @@ app.get("/", (req, res) => {
   });
 });
 
-// Endpoint temporal para ver la información de la API
+// Endpoint temporal para ver la información de la API ----------------------------------------------------------------
 app.get("/api/info", (req,res) => {
   res.json({
     project: "UserManager API",
@@ -83,7 +84,7 @@ app.get("/api/info", (req,res) => {
   });
 });
 
-// Endpoint para comprobar que la API está funcionando
+// Endpoint para comprobar que la API está funcionando ----------------------------------------------------------------
 app.get("/api/health", (req, res) => {
   res.status(200).json({
     status: "ok",
@@ -94,13 +95,14 @@ app.get("/api/health", (req, res) => {
   });
 });
 
+// Endpoint para comprobar la respuesta de la API ---------------------------------------------------------------------
 app.get("/api/ping", (req,res) => {
   res.status(200).json({
     message: "pong"
   });
 });
 
-// Endpoint para ver la lista de todos los usuarios
+// Endpoint para ver la lista de todos los usuarios -------------------------------------------------------------------
 app.get("/api/users", (req,res) => {
   res.status(200).json({
     message: "Listado de usuarios",
@@ -109,13 +111,14 @@ app.get("/api/users", (req,res) => {
   });
 });
 
+// Endpoint para contar el número de usuarios -------------------------------------------------------------------------
 app.get("/api/users/count", (req,res) => {
   res.status(200).json({
     total: users.length
   });
 });
 
-// Endpoint para consultar el perfil de la persona conectada
+// Endpoint para consultar el perfil de la persona conectada ----------------------------------------------------------
 app.get("/api/users/me", (req,res) => {
   res.status(200).json({
     id: 1,
@@ -126,6 +129,7 @@ app.get("/api/users/me", (req,res) => {
   });
 });
 
+// Endpoint para buscar a un usuario ----------------------------------------------------------------------------------
 app.get("/api/users/search", (req,res) => {
   const query = req.query;
 
@@ -135,22 +139,40 @@ app.get("/api/users/search", (req,res) => {
   });
 });
 
+// Endpoint para ver la lista de usuarios activados -------------------------------------------------------------------
 app.get("/api/users/active", (req,res) => {
   const activeUsers = users.filter((user) => user.isActive);
 
   if (activeUsers.length === 0) {
     return res.status(404).json({
       error: "No hay usuarios activos"
-    })
+    });
   }
 
   res.status(200).json({
     message: "Lista de usuarios activos",
     data: activeUsers
-  })
-})
+  });
+});
 
-// Endpoint para ver un usuario por ID
+// Endpoint para ver la lista de usuarios desactivados ----------------------------------------------------------------
+app.get("/api/users/inactive", (req,res) => {
+  const inactiveUsers = users.filter((user) => !user.isActive);
+
+  if (inactiveUsers.length === 0) {
+    return res.status(404).json({
+      error: "No hay usuarios inactivos"
+    });
+  }
+
+  res.status(200).json({
+    message: "Lista de usuarios inactivos",
+    data: inactiveUsers
+  })
+
+});
+
+// Endpoint para ver un usuario por ID --------------------------------------------------------------------------------
 app.get("/api/users/:id", (req,res) => {
   const idParam = req.params.id;
   const id = Number(idParam);
@@ -177,7 +199,7 @@ app.get("/api/users/:id", (req,res) => {
   });
 });
 
-// Endpoint para crear un nuevo usuario
+// Endpoint para crear un nuevo usuario -------------------------------------------------------------------------------
 app.post("/api/users/", (req,res) => {
   const { name, email, password } = req.body;
 
@@ -232,7 +254,7 @@ app.post("/api/users/", (req,res) => {
   });
 });
 
-// Endpoint para modificar un usuario
+// Endpoint para modificar un usuario ---------------------------------------------------------------------------------
 app.patch("/api/users/:id", (req,res) => {
   const idParam = req.params.id;
   const id = Number(idParam);
@@ -336,7 +358,7 @@ app.patch("/api/users/:id", (req,res) => {
   });
 });
 
-// Endpoint para cambiar el estado de un usuario
+// Endpoint para cambiar el estado de un usuario ----------------------------------------------------------------------
 app.patch("/api/users/:id/status", (req,res) => {
   const idParam = req.params.id;
   const id = Number(idParam);
@@ -381,7 +403,7 @@ app.patch("/api/users/:id/status", (req,res) => {
   });
 });
 
-// Endpoint para cambiar el rol de un usuario
+// Endpoint para cambiar el rol de un usuario -------------------------------------------------------------------------
 app.patch("/api/users/:id/role", (req,res) => {
   const idParam = req.params.id;
   const id = Number(idParam);
@@ -426,15 +448,106 @@ app.patch("/api/users/:id/role", (req,res) => {
   });
 });
 
-// Endpoint para borrar un usuario
-app.delete("/api/users/:id", (req,res) => {
-  const { id } = req.params;
+
+// Endpoint para reactivar a un usuario -------------------------------------------------------------------------------
+app.patch("/api/users/:id/reactivate", (req,res) => {
+  const idParam = req.params.id;
+  const id = Number(idParam);
+
+  if(Number.isNaN(id)) {
+    return res.status(400).json({
+      error: "El ID debe ser un número",
+      received: idParam
+    });
+  }
+
+  const userIndex = users.findIndex((user) => user.id === id);
+
+  if (userIndex === -1) {
+    return res.status(404).json({
+      error: "Usuario no encontrado",
+      id
+    });
+  }
+
+  const currentUser = users[userIndex];
+
+  const userStatus = currentUser.isActive;
+
+  if (userStatus) {
+    return res.status(200).json({
+      message: "El usuario ya estaba activado",
+      data: {
+        id,
+        isActive: userStatus
+      }
+    });
+  }
+
+  const updatedUser: User = {
+    ...currentUser,
+    isActive: true,
+    updatedAt: new Date().toISOString()
+  };
+
+  users[userIndex] = updatedUser;
+
   res.status(200).json({
-    message: "Usuario recibido para eliminar o desactivar",
-    id: id
+    message: "Usuario activado correctamente",
+    data: updatedUser
   });
 });
 
+// Endpoint para borrar un usuario ------------------------------------------------------------------------------------
+app.delete("/api/users/:id", (req,res) => {
+  const idParam = req.params.id;
+  const id = Number(idParam);
+
+  if(Number.isNaN(id)) {
+    return res.status(400).json({
+      error: "El ID debe ser un número",
+      received: idParam
+    });
+  }
+
+  const userIndex = users.findIndex((user) => user.id === id);
+
+  if (userIndex === -1) {
+    return res.status(404).json({
+      error: "Usuario no encontrado",
+      id
+    });
+  }
+
+  const currentUser = users[userIndex];
+
+  const userStatus = currentUser.isActive;
+
+  if (!userStatus) {
+    return res.status(200).json({
+      message: "El usuario ya estaba desactivado",
+      data: {
+        id,
+        isActive: userStatus
+      }
+    });
+  }
+
+  const updatedUser: User = {
+    ...currentUser,
+    isActive: false,
+    updatedAt: new Date().toISOString()
+  };
+
+  users[userIndex] = updatedUser;
+
+  res.status(200).json({
+    message: "Usuario desactivado correctamente",
+    data: updatedUser
+  });
+});
+
+// Endpoints debug ----------------------------------------------------------------------------------------------------
 app.post("/api/debug/body", (req,res) => {
   res.status(200).json({
     message: "Body recibido correctamente",
