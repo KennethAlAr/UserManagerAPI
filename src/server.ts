@@ -234,12 +234,195 @@ app.post("/api/users/", (req,res) => {
 
 // Endpoint para modificar un usuario
 app.patch("/api/users/:id", (req,res) => {
-  const { id } = req.params;
-  const changes = req.body;
+  const idParam = req.params.id;
+  const id = Number(idParam);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({
+      error: "El ID debe ser un número",
+      received: idParam
+    });
+  }
+
+  const userIndex = users.findIndex((user) => user.id === id);
+
+  if (userIndex === -1) {
+    return res.status(404).json({
+      error: "Usuario no encontrado",
+      id
+    });
+  }
+
+  const idBody = req.body.id;
+
+  if (idBody !== undefined){
+    return res.status(400).json({
+      error: "No se puede modificar el ID de un usuario"
+    })
+  }
+
+  const { name, email, isActive, role } = req.body;
+
+  if (role !== undefined){
+    return res.status(400).json({
+      error: "No se puede modificar el rol desde esta ruta"
+    });
+  }
+
+  if (isActive !== undefined){
+    return res.status(400).json({
+      error: "No se puede modificar el estado del usuario desde esta ruta"
+    });
+  }
+
+  const hasChanges =
+    name !== undefined ||
+    email !== undefined;
+
+  if (!hasChanges) {
+    return res.status(400).json({
+      error: "Debes enviar al menos un campo para actualizar"
+    });
+  }
+
+  let cleanName: string | undefined;
+
+  if (name !== undefined) {
+    cleanName = String(name).trim();
+
+    if (cleanName.length === 0) {
+      return res.status(400).json({
+        error: "El nombre no puede estar vacío"
+      });
+    }
+  }
+
+  let cleanEmail: string | undefined;
+
+  if (email !== undefined){
+    cleanEmail = String(email).trim().toLowerCase();
+
+    if (!cleanEmail.includes("@")) {
+      return res.status(400).json({
+        error: "El email no tiene un formato válido"
+      });
+    }
+
+    const emailAlreadyExists = users.some(
+      (user) => user.email === cleanEmail && user.id !== id
+    );
+
+    if (emailAlreadyExists) {
+      return res.status(409).json({
+        error: "El email ya está registrado"
+      });
+    }
+  }
+
+  const currentUser = users[userIndex];
+
+  const updatedUser : User = {
+    ...currentUser,
+    name: cleanName ?? currentUser.name,
+    email: cleanEmail ?? currentUser.email,
+    updatedAt: new Date().toISOString()
+  }
+
+  users[userIndex] = updatedUser;
+
   res.status(200).json({
-    message: "Usuario recibido para actualizar",
-    id: id,
-    changes: changes
+    message: "Usuario actualizado correctamente",
+    data: updatedUser
+  });
+});
+
+// Endpoint para cambiar el estado de un usuario
+app.patch("/api/users/:id/status", (req,res) => {
+  const idParam = req.params.id;
+  const id = Number(idParam);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({
+      error: "El ID debe ser un número",
+      received: idParam
+    });
+  }
+
+  const userIndex = users.findIndex((user) => user.id === id);
+
+  if (userIndex === -1) {
+    return res.status(404).json({
+      error: "Usuario no encontrado",
+      id
+    });
+  }
+
+  const { isActive } = req.body;
+
+  if (typeof isActive !== "boolean") {
+    return res.status(400).json({
+      error: "isActive debe ser true o false"
+    });
+  }
+
+  const currentUser = users[userIndex];
+
+  const updatedUser : User = {
+    ...currentUser,
+    isActive: isActive,
+    updatedAt: new Date().toISOString()
+  }
+
+  users[userIndex] = updatedUser;
+
+  res.status(200).json({
+    message: "Estado del usuario actualizado correctamente",
+    data: updatedUser
+  });
+});
+
+// Endpoint para cambiar el rol de un usuario
+app.patch("/api/users/:id/role", (req,res) => {
+  const idParam = req.params.id;
+  const id = Number(idParam);
+
+  if (Number.isNaN(id)) {
+    return res.status(400).json({
+      error: "El ID debe ser un número",
+      received: idParam
+    });
+  }
+
+  const userIndex = users.findIndex((user) => user.id === id);
+
+  if (userIndex === -1) {
+    return res.status(404).json({
+      error: "Usuario no encontrado",
+      id
+    });
+  }
+
+  const { role } = req.body;
+
+  if (!(role === "USER" || role === "ADMIN")) {
+    return res.status(400).json({
+      error: "Role debe ser USER o ADMIN"
+    });
+  }
+
+  const currentUser = users[userIndex];
+
+  const updatedUser : User = {
+    ...currentUser,
+    role: role,
+    updatedAt: new Date().toISOString()
+  }
+
+  users[userIndex] = updatedUser;
+
+  res.status(200).json({
+    message: "Estado del usuario actualizado correctamente",
+    data: updatedUser
   });
 });
 
@@ -249,28 +432,6 @@ app.delete("/api/users/:id", (req,res) => {
   res.status(200).json({
     message: "Usuario recibido para eliminar o desactivar",
     id: id
-  });
-});
-
-// Endpoint para cambiar el estado de un usuario
-app.patch("/api/users/:id/status", (req,res) => {
-  const { id } = req.params;
-  const { isActive } = req.body;
-  res.status(200).json({
-    message: "Estado de usuario recibido para actualizar",
-    id: id,
-    isActive: isActive
-  });
-});
-
-// Endpoint para cambiar el rol de un usuario
-app.patch("/api/users/:id/role", (req,res) => {
-  const { id } = req.params;
-  const { role } = req.body;
-  res.status(200).json({
-    message: "Rol de usuario recibido para actualizar",
-    id: id,
-    role: role
   });
 });
 

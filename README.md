@@ -158,43 +158,43 @@ Respuesta correcta:
 
 ```json
 {
-    "message": "Lista de usuarios activos",
-    "data": [
-        {
-            "id": 1,
-            "name": "Ana García",
-            "email": "ana@email.com",
-            "role": "USER",
-            "isActive": true,
-            "createdAt": "2026-06-16T13:38:51.251Z",
-            "updatedAt": "2026-06-16T13:38:51.251Z"
-        },
-        {
-            "id": 2,
-            "name": "Carlos Pérez",
-            "email": "carlos@email.com",
-            "role": "ADMIN",
-            "isActive": true,
-            "createdAt": "2026-06-16T13:38:51.251Z",
-            "updatedAt": "2026-06-16T13:38:51.251Z"
-        },
-        {
-            "id": 4,
-            "name": "Kenneth Alonso",
-            "email": "kenneth@email.com",
-            "role": "ADMIN",
-            "isActive": true,
-            "createdAt": "2026-06-16T13:38:51.251Z",
-            "updatedAt": "2026-06-16T13:38:51.251Z"
-        }
-    ]
+  "message": "Lista de usuarios activos",
+  "data": [
+    {
+      "id": 1,
+      "name": "Ana García",
+      "email": "ana@email.com",
+      "role": "USER",
+      "isActive": true,
+      "createdAt": "2026-06-16T13:38:51.251Z",
+      "updatedAt": "2026-06-16T13:38:51.251Z"
+    },
+    {
+      "id": 2,
+      "name": "Carlos Pérez",
+      "email": "carlos@email.com",
+      "role": "ADMIN",
+      "isActive": true,
+      "createdAt": "2026-06-16T13:38:51.251Z",
+      "updatedAt": "2026-06-16T13:38:51.251Z"
+    },
+    {
+      "id": 4,
+      "name": "Kenneth Alonso",
+      "email": "kenneth@email.com",
+      "role": "ADMIN",
+      "isActive": true,
+      "createdAt": "2026-06-16T13:38:51.251Z",
+      "updatedAt": "2026-06-16T13:38:51.251Z"
+    }
+  ]
 }
 ```
 Posibles errores:
 
 ```json
 {
-    "error": "No hay usuarios activos"
+  "error": "No hay usuarios activos"
 }
 ```
 
@@ -218,16 +218,16 @@ Respuesta correcta:
 
 ```json
 {
-    "message": "Usuario creado correctamente",
-    "data": {
-        "id": 6,
-        "name": "María López",
-        "email": "maria@email.com",
-        "role": "USER",
-        "isActive": true,
-        "createdAt": "2026-06-17T10:56:36.738Z",
-        "updatedAt": "2026-06-17T10:56:36.738Z"
-    }
+  "message": "Usuario creado correctamente",
+  "data": {
+    "id": 6,
+    "name": "María López",
+    "email": "maria@email.com",
+    "role": "USER",
+    "isActive": true,
+    "createdAt": "2026-06-17T10:56:36.738Z",
+    "updatedAt": "2026-06-17T10:56:36.738Z"
+  }
 }
 ```
 
@@ -250,15 +250,209 @@ Posibles errores:
   "error": "El email ya está registrado"
 }
 ```
+## Actualizar usuario
+
+### PATCH /api/users/:id
+
+Permite modificar parcialmente los datos de un usuario.
+
+Campos permitidos:
+
+```text
+name
+email
+isActive
+```
+
+Body de ejemplo:
+
+```json
+{
+  "name": "Ana Martínez"
+}
+```
+
+Respuesta correcta:
+
+```json
+{
+  "message": "Usuario actualizado correctamente",
+  "data": {
+    "id": 1,
+    "name": "Ana Martínez",
+    "email": "ana@email.com",
+    "role": "USER",
+    "isActive": true,
+    "createdAt": "2026-06-19T09:44:13.843Z",
+    "updatedAt": "2026-06-19T09:44:47.518Z"
+  }
+}
+```
+
+Posibles errores:
+
+```json
+{
+  "error": "El ID debe ser un número",
+  "received": "abc"
+}
+```
+
+```json
+{
+  "error": "Usuario no encontrado",
+  "id": 999
+}
+```
+
+```json
+{
+  "error": "Debes enviar al menos un campo para actualizar"
+}
+```
+
+```json
+{
+  "error": "El nombre no puede estar vacío"
+}
+```
+
+```json
+{
+  "error": "El email no tiene un formato válido"
+}
+```
+
+```json
+{
+  "error": "El email ya está registrado"
+}
+```
+
+```json
+{
+  "error": "isActive debe ser true o false"
+}
+```
+
+### PATCH /api/users/:id/status
+
+Permite modificar el estado de un usuario.
+
+Campos permitidos:
+
+```text
+isActive
+```
+
+Body de ejemplo:
+
+```json
+{
+  "isActive": false
+}
+```
+
+Respuesta correcta:
+
+```json
+{
+  "message": "Estado del usuario actualizado correctamente",
+  "data": {
+    "id": 1,
+    "name": "Ana García",
+    "email": "ana@email.com",
+    "role": "USER",
+    "isActive": false,
+    "createdAt": "2026-06-19T11:02:47.070Z",
+    "updatedAt": "2026-06-19T11:06:24.988Z"
+  }
+}
+```
+
+Posibles errores:
+
+```json
+{
+  "error": "El ID debe ser un número",
+  "received": "abc"
+}
+```
+
+```json
+{
+  "error": "Usuario no encontrado",
+  "id": 999
+}
+```
+
+```json
+{
+  "error": "isActive debe ser true o false"
+}
+```
+### PATCH /api/users/:id/role
+
+Permite modificar el rol de un usuario.
+
+Campos permitidos:
+
+```text
+role
+```
+
+Body de ejemplo:
+
+```json
+{
+  "role": "ADMIN"
+}
+```
+
+Respuesta correcta:
+
+```json
+{
+  "message": "Estado del usuario actualizado correctamente",
+  "data": {
+    "id": 1,
+    "name": "Ana García",
+    "email": "ana@email.com",
+    "role": "ADMIN",
+    "isActive": false,
+    "createdAt": "2026-06-19T11:02:47.070Z",
+    "updatedAt": "2026-06-19T11:06:24.988Z"
+  }
+}
+```
+
+Posibles errores:
+
+```json
+{
+  "error": "El ID debe ser un número",
+  "received": "abc"
+}
+```
+
+```json
+{
+  "error": "Usuario no encontrado",
+  "id": 999
+}
+```
+
+```json
+{
+  "error": "Role debe ser 'USER' o 'ADMIN'"
+}
+```
 
 ## Endpoints simulados de usuarios
 
 ```http
-PATCH /api/users/:id
 DELETE /api/users/:id
 GET /api/users/me
-PATCH /api/users/:id/status
-PATCH /api/users/:id/role
 ```
 
 Estos endpoints todavía no trabajan con datos reales. De momento sirven para
@@ -289,3 +483,4 @@ Más adelante estas rutas podrán eliminarse, ya que no forman parte de la API f
 - [Día 7 - Listado de usuarios en memoria](docs/dia-07-listado-usuarios.md)
 - [Día 8 - Consultar usuario por ID](docs/dia-08-consultar-usuario-id.md)
 - [Día 9 - Crear usuarios en memoria](docs/dia-09-crear-usuarios.md)
+- [Día 10 - Actualizar usuarios en memoria](docs/dia-10-actualizar-usuarios.md)
