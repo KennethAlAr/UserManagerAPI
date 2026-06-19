@@ -103,8 +103,9 @@ al estado inicial.
 | La respuesta contiene `data` | ✅ |
 | `data` es un array | ✅ |
 | Los usuarios no incluyen contraseña | ✅ |
----
-![Prueba en POSTMAN GET http://localhost:3000/api/users](./GET_api-users_2.png)
+
+### Prueba con POSTMAN - GET http://localhost:3000/api/users
+![Prueba GET http://localhost:3000/api/users](./images/dia-07/GET_api-users_2.png)
 
 ## Memoria vs base de datos
 ### ¿Qué significa guardar datos en memoria?

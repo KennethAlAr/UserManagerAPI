@@ -41,16 +41,26 @@ Casos probados
 | Adjuntado `role` | 400 | Aparece un mensaje de error indicando que el rol del usuario se modifica en otro endpoint |
 | Adjuntado `id` | 400 | Aparece un mensaje de error indicando que el ID del usuario no se puede modificar |
 
-![Prueba en POSTMAN - PATCH /api/users/1](./PATCH_api-users-1_2.png)
-![Prueba en POSTMAN - PATCH /api/users/abc](./PATCH_api-users-abc.png)
-![Prueba en POSTMAN - PATCH /api/users/999](./PATCH_api-users-999.png)
-![Prueba en POSTMAN - PATCH /api/users/1 body vacío](./PATCH_api-users-1_empty-body.png)
-![Prueba en POSTMAN - PATCH /api/users/1 nombre vacío](./PATCH_api-users-1_empty-name.png)
-![Prueba en POSTMAN - PATCH /api/users/1 email no válido](./PATCH_api-users-1_invalid-email.png)
-![Prueba en POSTMAN - PATCH /api/users/1 email duplicado](./PATCH_api-users-1_existing-email.png)
-![Prueba en POSTMAN - PATCH /api/users/1 adjuntado isActive](./PATCH_api-users-1_attached-isactive.png)
-![Prueba en POSTMAN - PATCH /api/users/1 adjuntado role](./PATCH_api-users-1_attached-role.png)
-![Prueba en POSTMAN - PATCH /api/users/1 adjuntado id](./PATCH_api-users-1_attached-id.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1
+![Prueba PATCH /api/users/1](./images/dia-10/PATCH_api-users-1_2.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/abc
+![Prueba PATCH /api/users/abc](./images/dia-10/PATCH_api-users-abc.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/999
+![Prueba PATCH /api/users/999](./images/dia-10/PATCH_api-users-999.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1 body vacío
+![Prueba PATCH /api/users/1 body vacío](./images/dia-10/PATCH_api-users-1_empty-body.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1 nombre vacío
+![Prueba PATCH /api/users/1 nombre vacío](./images/dia-10/PATCH_api-users-1_empty-name.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1 email no válido
+![Prueba PATCH /api/users/1 email no válido](./images/dia-10/PATCH_api-users-1_invalid-email.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1 email duplicado
+![Prueba PATCH /api/users/1 email duplicado](./images/dia-10/PATCH_api-users-1_existing-email.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1 adjuntado isActive
+![Prueba PATCH /api/users/1 adjuntado isActive](./images/dia-10/PATCH_api-users-1_attached-isactive.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1 adjuntado role
+![Prueba PATCH /api/users/1 adjuntado role](./images/dia-10/PATCH_api-users-1_attached-role.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1 adjuntado id
+![Prueba PATCH /api/users/1 adjuntado id](./images/dia-10/PATCH_api-users-1_attached-id.png)
 
 ### PATCH /api/users/:id/status
 
@@ -71,10 +81,14 @@ Casos probados
 | Usuario inexistente | 404 | Aparece un mensaje de error indicando que el usuario con la ID de los params no existe |
 | `isActive` incorrecto | 400 | Aparece un mensaje de error indicando que el valor de `isActive` debe ser `true` o `false` |
 
-![Prueba en POSTMAN - PATCH /api/users/1/status](./PATCH_api-users-1-status_2.png)
-![Prueba en POSTMAN - PATCH /api/users/abc/status](./PATCH_api-users-abc-status.png)
-![Prueba en POSTMAN - PATCH /api/users/999/status](./PATCH_api-users-999-status.png)
-![Prueba en POSTMAN - PATCH /api/users/1/status isActive incorrecto](./PATCH_api-users-1-status_incorrect-isactive.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/status
+![Prueba PATCH /api/users/1/status](./images/dia-10/PATCH_api-users-1-status_2.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/abc/status
+![Prueba PATCH /api/users/abc/status](./images/dia-10/PATCH_api-users-abc-status.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/999/status
+![Prueba PATCH /api/users/999/status](./images/dia-10/PATCH_api-users-999-status.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/status isActive incorrecto
+![Prueba PATCH /api/users/1/status isActive incorrecto](./images/dia-10/PATCH_api-users-1-status_incorrect-isactive.png)
 
 ### PATCH /api/users/:id/role
 
@@ -95,10 +109,14 @@ Casos probados
 | Usuario inexistente | 404 | Aparece un mensaje de error indicando que el usuario con la ID de los params no existe |
 | `role` incorrecto | 400 | Aparece un mensaje de error indicando que el valor de `role` debe ser `"USER"` o `"ADMIN"` |
 
-![Prueba en POSTMAN - PATCH /api/users/1/role](./PATCH_api-users-1-role_2.png)
-![Prueba en POSTMAN - PATCH /api/users/abc/role](./PATCH_api-users-abc-role.png)
-![Prueba en POSTMAN - PATCH /api/users/999/role](./PATCH_api-users-999-role.png)
-![Prueba en POSTMAN - PATCH /api/users/1/role rol incorrecto](./PATCH_api-users-1-role_incorrect-role.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/role
+![Prueba PATCH /api/users/1/role](./images/dia-10/PATCH_api-users-1-role_2.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/abc/role
+![Prueba PATCH /api/users/abc/role](./images/dia-10/PATCH_api-users-abc-role.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/999/role
+![Prueba PATCH /api/users/999/role](./images/dia-10/PATCH_api-users-999-role.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/role rol incorrecto
+![Prueba PATCH /api/users/1/role rol incorrecto](./images/dia-10/PATCH_api-users-1-role_incorrect-role.png)
 
 ## Explicación personal
 

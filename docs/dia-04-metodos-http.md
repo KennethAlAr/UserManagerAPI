@@ -43,28 +43,28 @@ DELETE sirve para eliminar o desactivar un recurso.
 | `/api/users/:id/role` | `PATCH` | `200` | Mensaje de confirmación del servidor con los datos para cambiar el rol del usuario con id 1 |
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/users
-![Prueba GET http://localhost:3000/api/users](./GET_api-users.png)
+![Prueba GET http://localhost:3000/api/users](./images/dia-04/GET_api-users.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/users/1
-![Prueba GET http://localhost:3000/api/users/1](./GET_api-users-1.png)
+![Prueba GET http://localhost:3000/api/users/1](./images/dia-04/GET_api-users-1.png)
 
 ### Prueba con POSTMAN - POST http://localhost:3000/api/users/
-![Prueba POST http://localhost:3000/api/users](./POST_api-users.png)
+![Prueba POST http://localhost:3000/api/users](./images/dia-04/POST_api-users.png)
 
 ### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1
-![Prueba PATCH http://localhost:3000/api/users/1](./PATCH_api-users-1.png)
+![Prueba PATCH http://localhost:3000/api/users/1](./images/dia-04/PATCH_api-users-1.png)
 
 ### Prueba con POSTMAN - DELETE http://localhost:3000/api/users/1
-![Prueba DELETE http://localhost:3000/api/users/1](./DELETE_api-users-1.png)
+![Prueba DELETE http://localhost:3000/api/users/1](./images/dia-04/DELETE_api-users-1.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/users/me
-![Prueba GET http://localhost:3000/api/users/me](./GET_api-users-me.png)
+![Prueba GET http://localhost:3000/api/users/me](./images/dia-04/GET_api-users-me.png)
 
 ### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/status
-![Prueba PATCH http://localhost:3000/api/users/1/status](./PATCH_api-users-1-status.png)
+![Prueba PATCH http://localhost:3000/api/users/1/status](./images/dia-04/PATCH_api-users-1-status.png)
 
 ### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/role
-![Prueba PATCH http://localhost:3000/api/users/1/role](./PATCH_api-users-1-role.png)
+![Prueba PATCH http://localhost:3000/api/users/1/role](./images/dia-04/PATCH_api-users-1-role.png)
 
 ## Usos de los métodos HTTP
 | Método | ¿Para qué sirve? | Ejemplo en UserManager API |

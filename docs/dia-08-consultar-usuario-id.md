@@ -27,13 +27,18 @@ GET /api/users/:id
 | `GET /api/users/active` | 200 | Lista de usuarios activos |
 | `GET /api/users/active` (Lista vacía) | 404 | No hay usuarios activos |
 
-
-![Prueba en POSTMAN - GET /api/users/1](./GET_api-users-1_2.png)
-![Prueba en POSTMAN - GET /api/users/2](./GET_api-users-2.png)
-![Prueba en POSTMAN - GET /api/users/999](./GET_api-users-999.png)
-![Prueba en POSTMAN - GET /api/users/abc](./GET_api-users-abc.png)
-![Prueba en POSTMAN - GET /api/users/active](./GET_api-users-active.png)
-![Prueba en POSTMAN - GET /api/users/active (lista vacía)](./GET_api-users-active_lista-vacia.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/1
+![Prueba GET /api/users/1](./images/dia-08/GET_api-users-1_2.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/2
+![Prueba GET /api/users/2](./images/dia-08/GET_api-users-2.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/999
+![Prueba GET /api/users/999](./images/dia-08/GET_api-users-999.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/abc
+![Prueba GET /api/users/abc](./images/dia-08/GET_api-users-abc.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/active
+![Prueba GET /api/users/active](./images/dia-08/GET_api-users-active.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/active lista vacía
+![Prueba GET /api/users/active (lista vacía)](./images/dia-08/GET_api-users-active_lista-vacia.png)
 
 ## Explicación personal
 

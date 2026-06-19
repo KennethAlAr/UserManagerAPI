@@ -32,7 +32,7 @@ http://localhost:3000
   "author": "Kenneth Alonso Arce"
 }
 ```
-![Ejemplo en Postman](./GET_root.png)
+![Ejemplo en Postman](./images/dia-02/GET_root.png)
 
 ## URL de información
 
@@ -52,7 +52,7 @@ http://localhost:3000/api/info
   ]
 }
 ```
-![Información en Postman](./GET_api-info.png)
+![Información en Postman](./images/dia-02/GET_api-info.png)
 
 ## Explicación personal
 

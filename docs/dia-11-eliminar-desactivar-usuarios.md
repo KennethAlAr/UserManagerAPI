@@ -26,12 +26,18 @@ Casos probados
 | Consultar listado después de desactivar | 200 | Aparece la lista entera con todos los usuarios, incluyendo los que tienen el parámetro `isActive` en `false` |
 | Desactivar usuario ya desactivado | 200 | Aparece un mensaje de confirmación, indicando que el usuario ya estaba desactivado |
 
-![Prueba en POSTMAN DELETE /api/users/1](./DELETE_api-users-1_2.png)
-![Prueba en POSTMAN DELETE /api/users/abc](./DELETE_api-users-abc.png)
-![Prueba en POSTMAN DELETE /api/users/999](./DELETE_api-users-999.png)
-![Prueba en POSTMAN GET /api/users/1](./GET_api-users-1_usuario-desactivado.png)
-![Prueba en POSTMAN GET /api/users](./GET_api-users_usuario-desactivado.png)
-![Prueba en POSTMAN DELETE /api/users/1 usuario ya desactivado](./DELETE_api-users-1_3.png)
+### Prueba con POSTMAN - DELETE http://localhost:3000/api/users/1
+![Prueba DELETE /api/users/1](./images/dia-11/DELETE_api-users-1_2.png)
+### Prueba con POSTMAN - DELETE http://localhost:3000/api/users/abc
+![Prueba DELETE /api/users/abc](./images/dia-11/DELETE_api-users-abc.png)
+### Prueba con POSTMAN - DELETE http://localhost:3000/api/users/999
+![Prueba DELETE /api/users/999](./images/dia-11/DELETE_api-users-999.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/1
+![Prueba GET /api/users/1](./images/dia-11/GET_api-users-1_usuario-desactivado.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users
+![Prueba GET /api/users](./images/dia-11/GET_api-users_usuario-desactivado.png)
+### Prueba con POSTMAN - DELETE http://localhost:3000/api/users/1 usuario ya desactivado
+![Prueba DELETE /api/users/1 usuario ya desactivado](./images/dia-11/DELETE_api-users-1_3.png)
 
 ### PATCH /api/users/:id/reactivate
 
@@ -44,10 +50,14 @@ Casos probados
 | Usuario inexistente | 404 | Aparece un mensaje de error indicando que el usuario con la ID de los params no existe |
 | Activar usuario ya activado | 200 | Aparece un mensaje de confirmación, indicando que el usuario ya estaba activado |
 
-![Prueba en POSTMAN PATCH /api/users/1/reactivate](./PATCH_api-users-1-reactivate.png)
-![Prueba en POSTMAN PATCH /api/users/abc/reactivate](./PATCH_api-users-abc-reactivate.png)
-![Prueba en POSTMAN PATCH /api/users/999/reactivate](./PATCH_api-users-999-reactivate.png)
-![Prueba en POSTMAN PATCH /api/users/1/reactivate usuario ya activo](./PATCH_api-users-1-reactivate_2.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/reactivate
+![Prueba PATCH /api/users/1/reactivate](./images/dia-11/PATCH_api-users-1-reactivate.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/abc/reactivate
+![Prueba PATCH /api/users/abc/reactivate](./images/dia-11/PATCH_api-users-abc-reactivate.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/999/reactivate
+![Prueba PATCH /api/users/999/reactivate](./images/dia-11/PATCH_api-users-999-reactivate.png)
+### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/1/reactivate usuario ya activado
+![Prueba PATCH /api/users/1/reactivate usuario ya activo](./images/dia-11/PATCH_api-users-1-reactivate_2.png)
 
 ### GET /api/users/inactive
 
@@ -58,8 +68,10 @@ Casos probados
 | Consultar listado de usuarios inactivos | 200 | Aparece un listado con los usuarios inactivos |
 | Consultar listado de usuarios inactivos cuando no hay usuarios inactivos | 404 | Aparece un mensaje de error indicando que no hay usuarios inactivos |
 
-![Prueba en POSTMAN GET /api/users/inactive](./GET_api-users-inactive.png)
-![Prueba en POSTMAN GET /api/users/inactive no hay usuarios inactivos](./GET_api-users-inactive_2.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/inactive
+![Prueba GET /api/users/inactive](./images/dia-11/GET_api-users-inactive.png)
+### Prueba con POSTMAN - GET http://localhost:3000/api/users/inactive no hay usuarios inactivos
+![Prueba GET /api/users/inactive no hay usuarios inactivos](./images/dia-11/GET_api-users-inactive_2.png)
 
 ## Explicación personal
 

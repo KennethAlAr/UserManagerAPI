@@ -17,23 +17,23 @@ Nombre de la colección:
 ```text
 UserManager API - Día 2
 ```
-![Colección POSTMAN UserManager API - Día 2](./Coleccion_POSTMAN_dia-2.png)
+![Colección POSTMAN UserManager API - Día 2](./images/dia-06/Coleccion_POSTMAN_dia-2.png)
 ```text
 UserManager API - Día 3
 ```
-![Colección POSTMAN UserManager API - Día 3](./Coleccion_POSTMAN_dia-3.png)
+![Colección POSTMAN UserManager API - Día 3](./images/dia-06/Coleccion_POSTMAN_dia-3.png)
 ```text
 UserManager API - Día 4
 ```
-![Colección POSTMAN UserManager API - Día 4](./Coleccion_POSTMAN_dia-4.png)
+![Colección POSTMAN UserManager API - Día 4](./images/dia-06/Coleccion_POSTMAN_dia-4.png)
 ```text
 UserManager API - Día 5
 ```
-![Colección POSTMAN UserManager API - Día 5](./Coleccion_POSTMAN_dia-5.png)
+![Colección POSTMAN UserManager API - Día 5](./images/dia-06/Coleccion_POSTMAN_dia-5.png)
 ```text
 UserManager API - Día 6
 ```
-![Colección POSTMAN UserManager API - Día 6](./Coleccion_POSTMAN_dia-6.png)
+![Colección POSTMAN UserManager API - Día 6](./images/dia-06/Coleccion_POSTMAN_dia-6.png)
 ## Ruta temporal de depuración
 
 ```http
@@ -58,11 +58,11 @@ códigos de estado de una forma más completa que el navegador.
 | `POST /api/health` | Método incorrecto | `404` | `404` | Devuelve un error 404 básico ya que aún no tenemos un middleware |
 
 ## Prueba de headers personalizados
-![Prueba POST http://localhost:3000/api/debug/request](./POST_api-debug-request.png)
+![Prueba POST http://localhost:3000/api/debug/request](./images/dia-06/POST_api-debug-request.png)
 El header aparece en el apartado de headers, en primera posición. Lo marcamos con una "x" al inicio para indicar que es un header personalizado.
 
 ## Prueba de actualización completa
-![Prueba PATCH http://localhost:3000/api/users/5](./PATCH_api-users-5.png)
+![Prueba PATCH http://localhost:3000/api/users/5](./images/dia-06/PATCH_api-users-5.png)
 La id del usuario (5) viaja a través de los params de la ruta. Los parámetros que queremos modificar (nombre, email y isActive) viaja a través del body. La API devuelve un mensaje de confirmación con los datos recibidos y el ID del usuario a modificar.
 
 ## Mi guía para depurar una petición

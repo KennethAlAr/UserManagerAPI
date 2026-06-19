@@ -48,7 +48,7 @@ UserManager API es una API REST para gestionar usuarios de una aplicación. Perm
 ---
 
 ## Esquema de la API
-![Esquema de la API](./Esquema_API.png)
+![Esquema de la API](./images/dia-01/Esquema_API.png)
 
 El cliente envía una petición a la API. La API valida los datos, aplica la lógica necesaria, consulta o modifica la base de datos y devuelve una respuesta.
 

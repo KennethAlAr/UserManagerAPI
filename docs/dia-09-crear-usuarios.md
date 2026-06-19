@@ -38,11 +38,16 @@ POST /api/users
 | Email duplicado | 409 | Se ha enviado un mensaje de error indicando que el email utilizado para crear un nuevo usuario ya existe en otro usuario |
 | Email no válido | 400 | Se ha enviado un mensaje de error indicando que el email no tiene el formato correcto |
 
-![Prueba en POSTMAN - POST /api/users](./POST_api-users_2.png)
-![Prueba en POSTMAN - POST /api/users faltan datos](./POST_api-users_missing-data.png)
-![Prueba en POSTMAN - POST /api/users contraseña no válida](./POST_api-users_invalid-password.png)
-![Prueba en POSTMAN - POST /api/users email duplicado](./POST_api-users_existing-email.png)
-![Prueba en POSTMAN - POST /api/users email no válido](./POST_api-users_invalid-email.png)
+### Prueba con POSTMAN - POST http://localhost:3000/api/users
+![Prueba POST /api/users](./images/dia-09/POST_api-users_2.png)
+### Prueba con POSTMAN - POST http://localhost:3000/api/users faltan datos
+![Prueba POST /api/users faltan datos](./images/dia-09/POST_api-users_missing-data.png)
+### Prueba con POSTMAN - POST http://localhost:3000/api/users contraseña no válida
+![Prueba POST /api/users contraseña no válida](./images/dia-09/POST_api-users_invalid-password.png)
+### Prueba con POSTMAN - POST http://localhost:3000/api/users email duplicado
+![Prueba POST /api/users email duplicado](./images/dia-09/POST_api-users_existing-email.png)
+### Prueba con POSTMAN - POST http://localhost:3000/api/users email no válido
+![Prueba POST /api/users email no válido](./images/dia-09/POST_api-users_invalid-email.png)
 
 ## Explicación personal
 

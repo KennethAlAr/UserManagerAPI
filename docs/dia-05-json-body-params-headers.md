@@ -40,29 +40,29 @@ Los headers sirven para enviar información adicional de la petición.
 | `GET /api/debug/client` | Headers | `200` | Mensaje con el header del cliente |
 
 ### Prueba con POSTMAN - POST http://localhost:3000/api/debug/body
-![Prueba POST http://localhost:3000/api/debug/body](./POST_api-debug-body.png)
+![Prueba POST http://localhost:3000/api/debug/body](./images/dia-05/POST_api-debug-body.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/debug/params/25
-![Prueba GET http://localhost:3000/api/debug/params/25](./GET_api-debug-params-25.png)
+![Prueba GET http://localhost:3000/api/debug/params/25](./images/dia-05/GET_api-debug-params-25.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/debug/query?role=ADMIN&isActive=true
-![Prueba GET http://localhost:3000/api/debug/query?role=ADMIN&isActive=true](./GET_api-debug-query-role-isActive.png)
+![Prueba GET http://localhost:3000/api/debug/query?role=ADMIN&isActive=true](./images/dia-05/GET_api-debug-query-role-isActive.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/debug/headers
-![Prueba GET http://localhost:3000/api/debug/headers](./GET_api-debug-headers.png)
+![Prueba GET http://localhost:3000/api/debug/headers](./images/dia-05/GET_api-debug-headers.png)
 
 ### Prueba con POSTMAN - PATCH http://localhost:3000/api/debug/users/7?notify=true
-![Consulta PATCH http://localhost:3000/api/debug/users/7?notify=true](./Consulta_PATCH_api-debug-users-7-notify.png)
-![Prueba PATCH http://localhost:3000/api/debug/users/7?notify=true](./PATCH_api-debug-users-7-notify.png)
+![Consulta PATCH http://localhost:3000/api/debug/users/7?notify=true](./images/dia-05/Consulta_PATCH_api-debug-users-7-notify.png)
+![Prueba PATCH http://localhost:3000/api/debug/users/7?notify=true](./images/dia-05/PATCH_api-debug-users-7-notify.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/debug/headers
-![Prueba GET http://localhost:3000/api/users/search?name=ana&role=USER](./GET_api-users-search-name-role.png)
+![Prueba GET http://localhost:3000/api/users/search?name=ana&role=USER](./images/dia-05/GET_api-users-search-name-role.png)
 
 ### Prueba con POSTMAN - PATCH http://localhost:3000/api/users/me/password
-![Prueba PATCH http://localhost:3000/api/users/me/password](./PATCH_api-users-me-password.png)
+![Prueba PATCH http://localhost:3000/api/users/me/password](./images/dia-05/PATCH_api-users-me-password.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/debug/client
-![Prueba GET http://localhost:3000/api/debug/client](./GET_api-debug-client.png)
+![Prueba GET http://localhost:3000/api/debug/client](./images/dia-05/GET_api-debug-client.png)
 
 ## ¿Dónde viaja cada dato?
 | Dato | ¿Dónde viajaría? | Ejemplo en UserManager API |

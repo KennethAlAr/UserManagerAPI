@@ -63,10 +63,10 @@ El endpoint `/api/health` sirve para comprobar que la API está funcionando corr
 | `GET /api/ping` | `200` | Mensaje rápido de respuesta |
 
 ### Prueba con POSTMAN - GET http://localhost:3000/
-![Prueba GET http://localhost:3000/](./GET_root.png)
+![Prueba GET http://localhost:3000/](./images/dia-02/GET_root.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/health
-![Prueba GET http://localhost:3000/api/health](./GET_api-health.png)
+![Prueba GET http://localhost:3000/api/health](./images/dia-03/GET_api-health.png)
 
 ### Prueba con POSTMAN - GET http://localhost:3000/api/ping
-![Prueba GET http://localhost:3000/api/ping](./GET_api-ping.png)
+![Prueba GET http://localhost:3000/api/ping](./images/dia-03/GET_api-ping.png)
