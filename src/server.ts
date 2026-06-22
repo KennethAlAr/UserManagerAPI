@@ -62,6 +62,28 @@ const users: User[] = [
   }
 ];
 
+function isNonEmptyString(value: unknown): value is string {
+  return typeof value === "string" && value.trim().length > 0;
+}
+
+function isBoolean(value: unknown): value is Boolean {
+  return typeof value === "boolean";
+}
+
+function isValidBasicName(value: string): boolean {
+  return value.trim().length >= 2;
+}
+
+function isValidBasicEmail(value: string): boolean {
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  return emailRegex.test(value);
+}
+
+function isValidPassword(value: string): boolean {
+  const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
+  return regex.test(value);
+}
+
 app.use(express.json());
 
 // Endpoint raíz para ver información de la aplicación ----------------------------------------------------------------
@@ -203,20 +225,41 @@ app.get("/api/users/:id", (req,res) => {
 app.post("/api/users/", (req,res) => {
   const { name, email, password } = req.body;
 
-  if (!name || !email || !password) {
+  if (!isNonEmptyString(name)) {
     return res.status(400).json({
-      error: "name, email y password son obligatorios"
+      error: "El nombre debe ser un texto no vacío"
     });
   }
 
-  if (password.length < 6) {
+  if (!isNonEmptyString(email)) {
     return res.status(400).json({
-      error: "La contraseña debe tener al menos 6 caracteres"
+      error: "El email debe ser un texto no vacío"
     });
   }
+
+  if (!isNonEmptyString(password)) {
+    return res.status(400).json({
+      error: "La contraseña debe ser un texto no vacío"
+    });
+  }
+
+  if(!isValidBasicName(name)) {
+    return res.status(400).json({
+      error: "El nombre debe tener al menos 2 caracteres"
+    })
+  }
+
+  const cleanName = name.trim();
   const cleanEmail = email.trim().toLowerCase();
+  const cleanPassword = password.trim();
 
-  if (!cleanEmail.includes("@")) {
+  if (!isValidPassword(cleanPassword)) {
+    return res.status(400).json({
+      error: "La contraseña debe tener al menos 8 caracteres e incluir al menos una letra, un número y un carácter especial"
+    });
+  }
+
+  if (!isValidBasicEmail(cleanEmail)) {
     return res.status(400).json({
       error: "El email no tiene un formato válido"
     })
@@ -233,8 +276,6 @@ app.post("/api/users/", (req,res) => {
   const newId = users.length > 0
     ? Math.max(...users.map((user) => user.id)) + 1
     : 1;
-
-  const cleanName = name.trim();
   
   const newUser: User = {
     id: newId,
@@ -310,21 +351,33 @@ app.patch("/api/users/:id", (req,res) => {
   let cleanName: string | undefined;
 
   if (name !== undefined) {
-    cleanName = String(name).trim();
-
-    if (cleanName.length === 0) {
+    if (!isNonEmptyString(name)) {
       return res.status(400).json({
-        error: "El nombre no puede estar vacío"
+        error: "El nombre debe ser un texto no vacío"
       });
     }
+
+    if (!isValidBasicName(name)) {
+      return res.status(400).json({
+        error: "El nombre debe tener al menos 2 caracteres"
+      });
+    }
+
+    cleanName = name.trim();
   }
 
   let cleanEmail: string | undefined;
 
-  if (email !== undefined){
-    cleanEmail = String(email).trim().toLowerCase();
+  if (email !== undefined) {
+    if (!isNonEmptyString(email)) {
+      return res.status(400).json({
+        error: "El email debe ser un texto no vacío"
+      });
+    }
 
-    if (!cleanEmail.includes("@")) {
+    cleanEmail = email.trim().toLowerCase();
+
+    if (!isValidBasicEmail(cleanEmail)) {
       return res.status(400).json({
         error: "El email no tiene un formato válido"
       });
@@ -381,7 +434,7 @@ app.patch("/api/users/:id/status", (req,res) => {
 
   const { isActive } = req.body;
 
-  if (typeof isActive !== "boolean") {
+  if (isActive !== undefined && !isBoolean(isActive)) {
     return res.status(400).json({
       error: "isActive debe ser true o false"
     });
