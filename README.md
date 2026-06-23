@@ -98,6 +98,7 @@ Respuesta esperada:
 GET /api/users
 GET /api/users/:id
 GET /api/users/active
+GET /api/users/search/email
 ```
 
 ### GET /api/users
@@ -115,6 +116,9 @@ Respuesta esperada:
 ```
 
 ### GET /api/users/:id
+```http
+GET /api/users/:id
+```
 
 Devuelve un usuario concreto a partir de su ID.
 
@@ -152,6 +156,9 @@ Posibles errores:
 ```
 
 ### GET /api/users/active
+```http
+GET /api/users/active
+```
 Devuelve una lista de los usuarios activos.
 
 Respuesta correcta:
@@ -198,9 +205,48 @@ Posibles errores:
 }
 ```
 
+### GET /api/users/search/email
+```http
+GET /api/users/search/email
+```
+Devuelve el usuario con el email de la query.
+
+Ejemplo de búsqueda:
+```http
+http://localhost:3000/api/users/search/email?email=ana@email.com
+```
+
+Respuesta correcta:
+
+```json
+{
+    "message": "Búsqueda de usuarios por email",
+    "data": {
+        "id": 1,
+        "name": "Ana García",
+        "email": "ana@email.com",
+        "role": "USER",
+        "isActive": true,
+        "createdAt": "2026-06-23T09:20:23.241Z",
+        "updatedAt": "2026-06-23T09:20:23.241Z"
+    }
+}
+```
+Posibles errores:
+
+```json
+{
+    "error": "Usuario no encontrado",
+    "email": "pedro@email.com"
+}
+```
+
 ## Endpoint para crear usuario
 
 ### POST /api/users
+```http
+POST /api/users
+```
 
 Body:
 
@@ -251,6 +297,9 @@ Posibles errores:
 ## Actualizar usuario
 
 ### PATCH /api/users/:id
+```http
+PATCH /api/users/:id
+```
 
 Permite modificar parcialmente los datos de un usuario.
 
@@ -334,6 +383,9 @@ Posibles errores:
 ```
 
 ### PATCH /api/users/:id/status
+```http
+PATCH /api/users/:id/status
+```
 
 Permite modificar el estado de un usuario.
 
@@ -390,6 +442,9 @@ Posibles errores:
 }
 ```
 ### PATCH /api/users/:id/role
+```http
+PATCH /api/users/:id/role
+```
 
 Permite modificar el rol de un usuario.
 
@@ -449,7 +504,9 @@ Posibles errores:
 ## Eliminar o desactivar usuario
 
 ### DELETE /api/users/:id
-
+```http
+DELETE /api/users/:id
+```
 
 En este proyecto, esta ruta no borra físicamente el usuario. Realiza un borrado
 lógico marcando:
@@ -535,6 +592,37 @@ Ejemplo de error:
   "error": "El nombre debe ser un texto no vacío"
 }
 ```
+## Validación de email
+
+La API normaliza los emails antes de guardarlos o compararlos.
+
+Proceso aplicado:
+
+- `trim()`
+- `toLowerCase()`
+- Validación básica de formato.
+- Comprobación de duplicados.
+
+Ejemplo:
+
+```text
+"  USUARIO@EMAIL.COM  " -> "usuario@email.com"
+```
+
+Si se intenta crear o actualizar un usuario con un email ya existente, la API
+responde:
+
+```json
+{
+  "error": "El email ya está registrado"
+}
+```
+
+Código:
+
+```http
+409 Conflict
+```
 
 ## Documentación del reto
 
@@ -550,3 +638,4 @@ Ejemplo de error:
 - [Día 10 - Actualizar usuarios en memoria](docs/dia-10-actualizar-usuarios.md)
 - [Día 11 - Eliminar o desactivar usuarios en memoria](docs/dia-11-eliminar-desactivar-usuarios.md)
 - [Día 12 - Validación manual básica](docs/dia-12-validacion-manual-basica.md)
+- [Día 13 - Validación de email y duplicados](docs/dia-13-validacion-email-duplicados.md)

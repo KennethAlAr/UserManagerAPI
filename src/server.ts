@@ -70,18 +70,30 @@ function isBoolean(value: unknown): value is Boolean {
   return typeof value === "boolean";
 }
 
+function normalizeEmail(email: string): string {
+  return email.trim().toLowerCase();
+}
+
 function isValidBasicName(value: string): boolean {
   return value.trim().length >= 2;
 }
 
 function isValidBasicEmail(value: string): boolean {
-  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+  const emailRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)+$/;
   return emailRegex.test(value);
 }
 
 function isValidPassword(value: string): boolean {
   const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[^a-zA-Z0-9]).{8,}$/;
   return regex.test(value);
+}
+
+function isEmailTaken(email: string, userIdToIgnore?: number): boolean {
+  const normalizedEmail = normalizeEmail(email);
+
+  return users.some(
+    (user) => user.email === normalizedEmail && user.id !== userIdToIgnore
+  );
 }
 
 app.use(express.json());
@@ -154,10 +166,28 @@ app.get("/api/users/me", (req,res) => {
 // Endpoint para buscar a un usuario ----------------------------------------------------------------------------------
 app.get("/api/users/search", (req,res) => {
   const query = req.query;
-
+  
   res.status(200).json({
     message: "Búsqueda de usuarios",
     filters: query
+  });
+});
+
+// Endpoint para buscar a un usuario por email-------------------------------------------------------------------------
+app.get("/api/users/search/email", (req,res) => {
+  const email = req.query.email;
+  const data = users.find((user) => user.email === email)
+
+  if(!data) {
+    return res.status(404).json({
+      error: "Usuario no encontrado",
+      email: email
+    })
+  }
+
+  res.status(200).json({
+    message: "Búsqueda de usuarios por email",
+    data: data
   });
 });
 
@@ -250,7 +280,7 @@ app.post("/api/users/", (req,res) => {
   }
 
   const cleanName = name.trim();
-  const cleanEmail = email.trim().toLowerCase();
+  const cleanEmail = normalizeEmail(email);
   const cleanPassword = password.trim();
 
   if (!isValidPassword(cleanPassword)) {
@@ -265,12 +295,10 @@ app.post("/api/users/", (req,res) => {
     })
   }
 
-  const existingUser = users.find((user) => user.email === cleanEmail);
-
-  if (existingUser) {
+  if (isEmailTaken(cleanEmail)) {
     return res.status(409).json({
       error: "El email ya está registrado"
-    });
+    })
   }
 
   const newId = users.length > 0
@@ -375,7 +403,7 @@ app.patch("/api/users/:id", (req,res) => {
       });
     }
 
-    cleanEmail = email.trim().toLowerCase();
+    cleanEmail = normalizeEmail(email)
 
     if (!isValidBasicEmail(cleanEmail)) {
       return res.status(400).json({
@@ -383,11 +411,7 @@ app.patch("/api/users/:id", (req,res) => {
       });
     }
 
-    const emailAlreadyExists = users.some(
-      (user) => user.email === cleanEmail && user.id !== id
-    );
-
-    if (emailAlreadyExists) {
+    if (isEmailTaken(cleanEmail, id)) {
       return res.status(409).json({
         error: "El email ya está registrado"
       });
