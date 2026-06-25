@@ -1,4 +1,4 @@
-import express from "express";
+import express, { Request, Response, NextFunction } from "express";
 
 const app = express();
 const PORT = 3000;
@@ -11,6 +11,17 @@ type User = {
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
+};
+
+class AppError extends Error {
+  statusCode: number;
+  details?: unknown;
+
+  constructor(message: string, statusCode: number = 500, details?: unknown) {
+    super(message);
+    this.statusCode = statusCode;
+    this.details = details;
+  }
 };
 
 // Datos temporales en memoria. Más adelante se sustituirán por una base de datos.
@@ -174,15 +185,16 @@ app.get("/api/users/search", (req,res) => {
 });
 
 // Endpoint para buscar a un usuario por email-------------------------------------------------------------------------
-app.get("/api/users/search/email", (req,res) => {
+app.get("/api/users/search/email", (req,res,next) => {
   const email = req.query.email;
   const data = users.find((user) => user.email === email)
 
   if(!data) {
-    return res.status(404).json({
-      error: "Usuario no encontrado",
-      email: email
-    })
+    return next(
+      new AppError("Usuario no encontrado", 404, {
+        email: email
+      })
+    );
   }
 
   res.status(200).json({
@@ -192,13 +204,13 @@ app.get("/api/users/search/email", (req,res) => {
 });
 
 // Endpoint para ver la lista de usuarios activados -------------------------------------------------------------------
-app.get("/api/users/active", (req,res) => {
+app.get("/api/users/active", (req,res, next) => {
   const activeUsers = users.filter((user) => user.isActive);
 
   if (activeUsers.length === 0) {
-    return res.status(404).json({
-      error: "No hay usuarios activos"
-    });
+    return next(
+      new AppError("No hay usuarios activos", 404)
+    );
   }
 
   res.status(200).json({
@@ -208,13 +220,13 @@ app.get("/api/users/active", (req,res) => {
 });
 
 // Endpoint para ver la lista de usuarios desactivados ----------------------------------------------------------------
-app.get("/api/users/inactive", (req,res) => {
+app.get("/api/users/inactive", (req,res,next) => {
   const inactiveUsers = users.filter((user) => !user.isActive);
 
   if (inactiveUsers.length === 0) {
-    return res.status(404).json({
-      error: "No hay usuarios inactivos"
-    });
+    return next(
+      new AppError("No hay usuarios inactivos", 404)
+    );
   }
 
   res.status(200).json({
@@ -225,24 +237,26 @@ app.get("/api/users/inactive", (req,res) => {
 });
 
 // Endpoint para ver un usuario por ID --------------------------------------------------------------------------------
-app.get("/api/users/:id", (req,res) => {
+app.get("/api/users/:id", (req,res,next) => {
   const idParam = req.params.id;
   const id = Number(idParam);
 
   if (Number.isNaN(id)) {
-    return res.status(400).json({
-      error: "El ID debe ser un número",
-      received: idParam
-    });
+    return next(
+      new AppError("El ID debe ser un número", 400, {
+        received: idParam
+      })
+    );
   }
 
   const user = users.find((user) => user.id === id);
 
   if (!user) {
-    return res.status(404).json({
-      error: "Usuario no encontrado",
-      id
-    });
+    return next(
+      new AppError("Usuario no encontrado", 404, {
+        id
+      })
+    );
   }
 
   res.status(200).json({
@@ -252,31 +266,31 @@ app.get("/api/users/:id", (req,res) => {
 });
 
 // Endpoint para crear un nuevo usuario -------------------------------------------------------------------------------
-app.post("/api/users/", (req,res) => {
+app.post("/api/users/", (req,res,next) => {
   const { name, email, password } = req.body;
 
   if (!isNonEmptyString(name)) {
-    return res.status(400).json({
-      error: "El nombre debe ser un texto no vacío"
-    });
+    return next(
+      new AppError("El nombre debe ser un texto no vacío", 400)
+    );
   }
 
   if (!isNonEmptyString(email)) {
-    return res.status(400).json({
-      error: "El email debe ser un texto no vacío"
-    });
+    return next(
+      new AppError("El email debe ser un texto no vacío", 400)
+    );
   }
 
   if (!isNonEmptyString(password)) {
-    return res.status(400).json({
-      error: "La contraseña debe ser un texto no vacío"
-    });
+    return next(
+      new AppError("La contraseña debe ser un texto no vacío", 400)
+    );
   }
 
   if(!isValidBasicName(name)) {
-    return res.status(400).json({
-      error: "El nombre debe tener al menos 2 caracteres"
-    })
+    return next(
+      new AppError("El nombre debe tener al menos 2 caracteres", 400)
+    );
   }
 
   const cleanName = name.trim();
@@ -284,21 +298,21 @@ app.post("/api/users/", (req,res) => {
   const cleanPassword = password.trim();
 
   if (!isValidPassword(cleanPassword)) {
-    return res.status(400).json({
-      error: "La contraseña debe tener al menos 8 caracteres e incluir al menos una letra, un número y un carácter especial"
-    });
+    return next(
+      new AppError("La contraseña debe tener al menos 8 caracteres e incluir al menos una letra, un número y un carácter especial", 400)
+    );
   }
 
   if (!isValidBasicEmail(cleanEmail)) {
-    return res.status(400).json({
-      error: "El email no tiene un formato válido"
-    })
+    return next(
+      new AppError("El email no tiene un formato válido", 400)
+    );
   }
 
   if (isEmailTaken(cleanEmail)) {
-    return res.status(409).json({
-      error: "El email ya está registrado"
-    })
+    return next(
+      new AppError("El email ya está registrado", 409)
+    );
   }
 
   const newId = users.length > 0
@@ -324,46 +338,48 @@ app.post("/api/users/", (req,res) => {
 });
 
 // Endpoint para modificar un usuario ---------------------------------------------------------------------------------
-app.patch("/api/users/:id", (req,res) => {
+app.patch("/api/users/:id", (req,res,next) => {
   const idParam = req.params.id;
   const id = Number(idParam);
 
   if (Number.isNaN(id)) {
-    return res.status(400).json({
-      error: "El ID debe ser un número",
-      received: idParam
-    });
+    return next(
+      new AppError("El ID debe ser un número", 400, {
+        received: idParam
+      })
+    );
   }
 
   const userIndex = users.findIndex((user) => user.id === id);
 
   if (userIndex === -1) {
-    return res.status(404).json({
-      error: "Usuario no encontrado",
-      id
-    });
+    return next(
+      new AppError("Usuario no encontrado", 404, {
+        id
+      })
+    );
   }
 
   const idBody = req.body.id;
 
   if (idBody !== undefined){
-    return res.status(400).json({
-      error: "No se puede modificar el ID de un usuario"
-    })
+    return next(
+      new AppError("No se puede modificar el ID de un usuario", 400)
+    );
   }
 
   const { name, email, isActive, role } = req.body;
 
   if (role !== undefined){
-    return res.status(400).json({
-      error: "No se puede modificar el rol desde esta ruta"
-    });
+    return next(
+      new AppError("No se puede modificar el rol desde esta ruta", 400)
+    );
   }
 
   if (isActive !== undefined){
-    return res.status(400).json({
-      error: "No se puede modificar el estado del usuario desde esta ruta"
-    });
+    return next(
+      new AppError("No se puede modificar el estado del usuario desde esta ruta", 400)
+    );
   }
 
   const hasChanges =
@@ -371,24 +387,24 @@ app.patch("/api/users/:id", (req,res) => {
     email !== undefined;
 
   if (!hasChanges) {
-    return res.status(400).json({
-      error: "Debes enviar al menos un campo para actualizar"
-    });
+    return next(
+      new AppError("Debes enviar al menos un campo para actualizar", 400)
+    );
   }
 
   let cleanName: string | undefined;
 
   if (name !== undefined) {
     if (!isNonEmptyString(name)) {
-      return res.status(400).json({
-        error: "El nombre debe ser un texto no vacío"
-      });
+      return next(
+        new AppError("El nombre debe ser un texto no vacío", 400)
+      );
     }
 
     if (!isValidBasicName(name)) {
-      return res.status(400).json({
-        error: "El nombre debe tener al menos 2 caracteres"
-      });
+      return next(
+        new AppError("El nombre debe tener al menos 2 caracteres", 400)
+      );
     }
 
     cleanName = name.trim();
@@ -398,23 +414,23 @@ app.patch("/api/users/:id", (req,res) => {
 
   if (email !== undefined) {
     if (!isNonEmptyString(email)) {
-      return res.status(400).json({
-        error: "El email debe ser un texto no vacío"
-      });
+      return next(
+        new AppError("El email debe ser un texto no vacío", 400)
+      );
     }
 
     cleanEmail = normalizeEmail(email)
 
     if (!isValidBasicEmail(cleanEmail)) {
-      return res.status(400).json({
-        error: "El email no tiene un formato válido"
-      });
+      return next(
+        new AppError("El email no tiene un formato válido", 400)
+      );
     }
 
     if (isEmailTaken(cleanEmail, id)) {
-      return res.status(409).json({
-        error: "El email ya está registrado"
-      });
+      return next(
+        new AppError("El email ya está registrado", 409)
+      );
     }
   }
 
@@ -436,32 +452,34 @@ app.patch("/api/users/:id", (req,res) => {
 });
 
 // Endpoint para cambiar el estado de un usuario ----------------------------------------------------------------------
-app.patch("/api/users/:id/status", (req,res) => {
+app.patch("/api/users/:id/status", (req,res,next) => {
   const idParam = req.params.id;
   const id = Number(idParam);
 
   if (Number.isNaN(id)) {
-    return res.status(400).json({
-      error: "El ID debe ser un número",
-      received: idParam
-    });
+    return next(
+      new AppError("El ID debe ser un número", 400, {
+        received: idParam
+      })
+    );
   }
 
   const userIndex = users.findIndex((user) => user.id === id);
 
   if (userIndex === -1) {
-    return res.status(404).json({
-      error: "Usuario no encontrado",
-      id
-    });
+    return next(
+      new AppError("Usuario no encontrado", 404, {
+        id
+      })
+    );
   }
 
   const { isActive } = req.body;
 
   if (isActive !== undefined && !isBoolean(isActive)) {
-    return res.status(400).json({
-      error: "isActive debe ser true o false"
-    });
+    return next(
+      new AppError("isActive debe ser true o false", 400)
+    );
   }
 
   const currentUser = users[userIndex];
@@ -481,32 +499,34 @@ app.patch("/api/users/:id/status", (req,res) => {
 });
 
 // Endpoint para cambiar el rol de un usuario -------------------------------------------------------------------------
-app.patch("/api/users/:id/role", (req,res) => {
+app.patch("/api/users/:id/role", (req,res,next) => {
   const idParam = req.params.id;
   const id = Number(idParam);
 
   if (Number.isNaN(id)) {
-    return res.status(400).json({
-      error: "El ID debe ser un número",
-      received: idParam
-    });
+    return next(
+      new AppError("El ID debe ser un número", 400, {
+        received: idParam
+      })
+    );
   }
 
   const userIndex = users.findIndex((user) => user.id === id);
 
   if (userIndex === -1) {
-    return res.status(404).json({
-      error: "Usuario no encontrado",
-      id
-    });
+    return next(
+      new AppError("Usuario no encontrado", 404, {
+        id
+      })
+    );
   }
 
   const { role } = req.body;
 
   if (!(role === "USER" || role === "ADMIN")) {
-    return res.status(400).json({
-      error: "Role debe ser USER o ADMIN"
-    });
+    return next(
+      new AppError("Role debe ser USER o ADMIN", 400)
+    );
   }
 
   const currentUser = users[userIndex];
@@ -527,24 +547,26 @@ app.patch("/api/users/:id/role", (req,res) => {
 
 
 // Endpoint para reactivar a un usuario -------------------------------------------------------------------------------
-app.patch("/api/users/:id/reactivate", (req,res) => {
+app.patch("/api/users/:id/reactivate", (req,res,next) => {
   const idParam = req.params.id;
   const id = Number(idParam);
 
   if(Number.isNaN(id)) {
-    return res.status(400).json({
-      error: "El ID debe ser un número",
-      received: idParam
-    });
+    return next(
+      new AppError("El ID debe ser un número", 400, {
+        received: idParam
+      })
+    );
   }
 
   const userIndex = users.findIndex((user) => user.id === id);
 
   if (userIndex === -1) {
-    return res.status(404).json({
-      error: "Usuario no encontrado",
-      id
-    });
+    return next(
+      new AppError("Usuario no encontrado", 404, {
+        id
+      })
+    );
   }
 
   const currentUser = users[userIndex];
@@ -576,24 +598,26 @@ app.patch("/api/users/:id/reactivate", (req,res) => {
 });
 
 // Endpoint para borrar un usuario ------------------------------------------------------------------------------------
-app.delete("/api/users/:id", (req,res) => {
+app.delete("/api/users/:id", (req,res,next) => {
   const idParam = req.params.id;
   const id = Number(idParam);
 
   if(Number.isNaN(id)) {
-    return res.status(400).json({
-      error: "El ID debe ser un número",
-      received: idParam
-    });
+    return next(
+      new AppError("El ID debe ser un número", 400, {
+        received: idParam
+      })
+    );
   }
 
   const userIndex = users.findIndex((user) => user.id === id);
 
   if (userIndex === -1) {
-    return res.status(404).json({
-      error: "Usuario no encontrado",
-      id
-    });
+    return next(
+      new AppError("Usuario no encontrado", 404, {
+        id
+      })
+    );
   }
 
   const currentUser = users[userIndex];
@@ -696,6 +720,41 @@ app.post("/api/debug/request", (req,res) => {
     body: req.body
   });
 });
+
+// Endpoints temporal Error 500 ---------------------------------------------------------------------------------------
+app.get("/api/debug/error", (req,res,next) => {
+  next(new AppError("Error de prueba interno", 500));
+});
+
+function notFoundMiddleware(req: Request, res: Response, next: NextFunction) {
+  next(
+    new AppError(`No existe la ruta ${req.method} ${req.originalUrl}`, 404, {
+      method: req.method,
+      path: req.originalUrl
+    })
+  );
+}
+
+function errorMiddleware(
+  err: AppError,
+  req: Request,
+  res: Response,
+  _next: NextFunction
+) {
+  const statusCode = err.statusCode || 500;
+
+  return res.status(statusCode).json({
+    error: err.message || "Error interno del servidor",
+    statusCode,
+    details: err.details,
+    path: req.originalUrl,
+    method: req.method,
+    timestamp: new Date().toISOString()
+  });
+}
+
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
